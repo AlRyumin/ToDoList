@@ -20,3 +20,7 @@ header.header{
   line-height: 40px;
   padding: 0 10px;
 }
+
+.required{
+  color: #FF0000;
+}

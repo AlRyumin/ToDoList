@@ -13,16 +13,25 @@
         ${errorLogin}
       </div>
       <form method="post" action="">
-        <div>
-          Email: <br>
-          <input type="text" name="email"/>
+        <div class="form-group">
+          <label for="email">
+            Email<span class="required">*</span>
+          </label>
+          <input class="form-control" type="text" id="email" name="email" required="required"/>
         </div>
-        <div>
-          Password <br>
-          <input type="password" name="password"/>
+        <div class="form-group">
+          <label for="password">
+            Password <span class="required">*</span>
+          </label>
+          <input class="form-control" type="password" name="password" id="password" required="required"/>
         </div>
-        <br>
-        <button type="submit">Login</button>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" name="remember" value="1" class="form-check-input">
+            Remember me
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
       </form>
     </div>
     <jsp:include page="../parts/_footer.jsp"/>

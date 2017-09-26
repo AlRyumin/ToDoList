@@ -83,6 +83,11 @@ public class LoginServlet extends HttpServlet {
       HttpSession session = request.getSession();
       Utils.setUserSession(session, user);
 
+      if (request.getParameter("remember") != null)
+        Utils.setUserCookie(response, user);
+      else
+        Utils.deleteUserCookie(response);
+
       response.sendRedirect("/");
     } catch (SQLException e) {
       errorLogin += e.getMessage();
