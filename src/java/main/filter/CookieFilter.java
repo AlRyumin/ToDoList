@@ -13,6 +13,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import main.db.model.User;
@@ -20,10 +21,7 @@ import main.db.service.UserService;
 import main.db.service.UserServiceImpl;
 import main.utils.Utils;
 
-/**
- *
- * @author root
- */
+@WebFilter(filterName = "cookieFilter", urlPatterns = {"/*"})
 public class CookieFilter implements Filter {
 
   @Override

@@ -21,7 +21,7 @@ import main.utils.Utils;
  *
  * @author root
  */
-@WebFilter(filterName = "encodingFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "jdbcFilter", urlPatterns = {"/*"})
 public class JDBCFilter implements Filter {
 
   @Override
