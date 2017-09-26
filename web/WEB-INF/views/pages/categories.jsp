@@ -22,8 +22,23 @@
         <input type="hidden" name="action" value="add">
         <button type="submit" class="btn btn-primary">Add</button>
       </form>
-      <c:if test="categories">
-        Categories
+      <c:if test="${categories != null}">
+        <div id="categories">
+          <c:forEach var="category" items="${categories}">
+            <div  class="category">
+              <form method="post" action="${pageContext.request.contextPath}/categories/edit">
+                <div class="row">
+                  <div class="col-md-9">
+                    <c:out value="${category.name}"/>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </c:forEach>
+        </div>
       </c:if>
     </div>
     <jsp:include page="../parts/_footer.jsp"/>

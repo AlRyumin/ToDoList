@@ -53,7 +53,7 @@ public class CategoriesServlet extends HttpServlet {
       User user = Utils.getUserSession(session);
       Connection connection = Utils.getConnection(request);
       CategoryServiceImpl category = new CategoryServiceImpl(connection);
-      ArrayList<Category> categories = (ArrayList<Category>) category.getCategories(user.getId());
+      ArrayList<Category> categories = category.getCategories(user.getId());
       request.setAttribute("categories", categories);
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/categories.jsp");
       dispatcher.forward(request, response);

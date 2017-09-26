@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import main.db.model.Category;
 
@@ -63,8 +64,8 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public List<Category> getCategories(int userId) throws SQLException {
-    List<Category> categories = null;
+  public ArrayList<Category> getCategories(int userId) throws SQLException {
+    ArrayList<Category> categories = new ArrayList<Category>();
     String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
 
     PreparedStatement prepState = connection.prepareStatement(query);
@@ -73,15 +74,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     boolean hasResult = prepState.execute();
 
-    while(hasResult){
+    while (hasResult) {
       ResultSet result = prepState.getResultSet();
-      int id = result.getInt("id");
-      int parentId = result.getInt("parent_id");
-      String name = result.getString("name");
-      Category category = new Category(id, userId, parentId, name);
-      categories.add(category);
+      while (result.next()) {
+        int id = result.getInt("id");
+        int parentId = result.getInt("parent_id");
+        String name = result.getString("name");
+        System.out.println(name);
+        Category category = new Category(id, userId, parentId, name);
+        categories.add(category);
+      }
+      result.close();
       hasResult = prepState.getMoreResults();
     }
+
+    prepState.close();
 
     return categories;
   }
