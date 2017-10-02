@@ -27,7 +27,7 @@ import main.db.service.CategoryServiceImpl;
 import main.utils.Utils;
 
 import static main.helper.FieldValidation.*;
-import static main.utils.Constants.URL_CATEGORY;
+import static main.utils.Constants.*;
 
 /**
  *
@@ -101,13 +101,19 @@ public class CategoryServlet extends HttpServlet {
         CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
         categoryService.update(id, user.getId(), parentId, name);
 
-        Category category = categoryService.getCategory(id);
-        ArrayList<Category> categories = categoryService.getCategories(user.getId(), category.getId());
+        response.sendRedirect(URL_CATEGORIES);
+      } catch (Exception e) {
+        e.printStackTrace();
+        continueWithError(request, response, e.getMessage());
+      }
+    } else if (action.equals("delete")) {
+      try {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Connection connection = Utils.getConnection(request);
+        CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
+        categoryService.delete(id);
 
-        request.setAttribute("categories", categories);
-        request.setAttribute("category", category);
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/category.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect(URL_CATEGORIES);
       } catch (Exception e) {
         e.printStackTrace();
         continueWithError(request, response, e.getMessage());

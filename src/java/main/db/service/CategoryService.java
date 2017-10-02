@@ -14,5 +14,5 @@ public interface CategoryService {
   public Category getCategory(int id) throws SQLException;
   public List<Category> getCategories(int userId) throws SQLException;
   public boolean update(int id, int userId, int parentId, String name) throws SQLException;
-  public void deleteCategory(int id) throws SQLException;
+  public void delete(int id) throws SQLException;
 }

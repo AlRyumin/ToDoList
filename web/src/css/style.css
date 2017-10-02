@@ -20,6 +20,16 @@ header.header{
 #categories .category.category-level-2{
   padding-left: 40px;
 }
+#categories .category.category-level-3{
+  padding-left:60px;
+}
+#categories .category.category-level-4{
+  padding-left: 80px;
+}
+#categories .category.category-level-5{
+  padding-left: 100px;
+}
+
 .content{
   padding: 20px 0;
 }

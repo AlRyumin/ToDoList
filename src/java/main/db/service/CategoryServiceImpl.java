@@ -112,8 +112,13 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public void deleteCategory(int id) throws SQLException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public void delete(int id) throws SQLException {
+    String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
+    PreparedStatement prepState = connection.prepareStatement(query);
+
+    prepState.setInt(1, id);
+
+    prepState.execute();
   }
 
 }
