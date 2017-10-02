@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import main.db.model.Category;
 
 /**
@@ -65,12 +64,17 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public ArrayList<Category> getCategories(int userId) throws SQLException {
+    return getCategories(userId, 0);
+  }
+
+  public ArrayList<Category> getCategories(int userId, int exclude) throws SQLException {
     ArrayList<Category> categories = new ArrayList<Category>();
-    String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
+    String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND id != ?";
 
     PreparedStatement prepState = connection.prepareStatement(query);
 
     prepState.setInt(1, userId);
+    prepState.setInt(2, exclude);
 
     boolean hasResult = prepState.execute();
 
@@ -80,7 +84,6 @@ public class CategoryServiceImpl implements CategoryService {
         int id = result.getInt("id");
         int parentId = result.getInt("parent_id");
         String name = result.getString("name");
-        System.out.println(name);
         Category category = new Category(id, userId, parentId, name);
         categories.add(category);
       }
@@ -91,6 +94,21 @@ public class CategoryServiceImpl implements CategoryService {
     prepState.close();
 
     return categories;
+  }
+
+  public boolean update(int id, int userId, int parentId, String name) throws SQLException {
+    String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, parent_id = ?, name = ? WHERE id = ?";
+    PreparedStatement prepState = connection.prepareStatement(query);
+
+    System.out.println("Query: ");
+    System.out.println(query);
+
+    prepState.setInt(1, userId);
+    prepState.setInt(2, parentId);
+    prepState.setString(3, name);
+    prepState.setInt(4, id);
+
+    return prepState.execute();
   }
 
   @Override

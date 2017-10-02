@@ -13,5 +13,6 @@ public interface CategoryService {
   public void createCategory(Category category) throws SQLException;
   public Category getCategory(int id) throws SQLException;
   public List<Category> getCategories(int userId) throws SQLException;
+  public boolean update(int id, int userId, int parentId, String name) throws SQLException;
   public void deleteCategory(int id) throws SQLException;
 }

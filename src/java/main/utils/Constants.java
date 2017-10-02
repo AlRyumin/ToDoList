@@ -12,6 +12,7 @@ package main.utils;
 public class Constants {
   public static final String URL_HOME = "/";
   public static final String URL_HOME_FULL = "/home";
+  public static final String URL_CATEGORY = "/category";
   public static final String URL_CATEGORIES = "/categories";
   public static final String URL_LOGIN = "/login";
   public static final String URL_REGISTER = "/register";

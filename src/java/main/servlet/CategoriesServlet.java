@@ -7,11 +7,7 @@ package main.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +22,8 @@ import main.utils.Utils;
 
 import static main.utils.Constants.*;
 import static main.helper.FieldValidation.*;
+import main.helper.category.CategoryNode;
+import main.helper.category.CategoryTree;
 
 /**
  *
@@ -54,7 +52,11 @@ public class CategoriesServlet extends HttpServlet {
       Connection connection = Utils.getConnection(request);
       CategoryServiceImpl category = new CategoryServiceImpl(connection);
       ArrayList<Category> categories = category.getCategories(user.getId());
-      request.setAttribute("categories", categories);
+
+      CategoryTree categoriesTree = new CategoryTree(categories);
+      ArrayList<CategoryNode> nodes = categoriesTree.getNodes();
+
+      request.setAttribute("nodes", nodes);
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/categories.jsp");
       dispatcher.forward(request, response);
     } catch (Exception e) {
@@ -80,14 +82,18 @@ public class CategoriesServlet extends HttpServlet {
     checkUserLoggedIn(session, response);
 
     String name = request.getParameter("name");
+    String parent = request.getParameter("parent");
+    int parentId = Integer.parseInt(parent);
+
     if(isFieldEmpty(name))
       continueWithError(request, response, "Name field is required");
     try {
       Connection connection = Utils.getConnection(request);
       User user = Utils.getUserSession(session);
       CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
-      Category category = new Category(user.getId(), 0, name);
+      Category category = new Category(user.getId(), parentId, name);
       categoryService.createCategory(category);
+      response.sendRedirect(URL_CATEGORIES);
     } catch (Exception e) {
       e.printStackTrace();
       continueWithError(request, response, e.getMessage());

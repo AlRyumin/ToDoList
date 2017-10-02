@@ -14,6 +14,12 @@ header.header{
 #categories .category{
   margin: 10px 0;
 }
+#categories .category.category-level-1{
+    padding-left: 20px;
+}
+#categories .category.category-level-2{
+  padding-left: 40px;
+}
 .content{
   padding: 20px 0;
 }

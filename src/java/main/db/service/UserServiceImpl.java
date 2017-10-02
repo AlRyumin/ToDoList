@@ -24,8 +24,25 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User getUser(int id) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public User getUser(int id) throws SQLException {
+    User user = null;
+    String query = "SELECT * FROM user WHERE id = ?";
+
+    PreparedStatement prepState = connection.prepareStatement(query);
+
+    prepState.setInt(1, id);
+
+    ResultSet result = prepState.executeQuery();
+
+    if (result.next()) {
+      String name = result.getString("name");
+      String email = result.getString("email");
+      String password = result.getString("password");
+      String role = result.getString("role");
+      user = new User(id, name, email, password, role);
+    }
+
+    return user;
   }
 
   public User getUser(String userEmail, String userPassword) throws SQLException {
