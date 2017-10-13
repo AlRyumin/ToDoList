@@ -17,6 +17,9 @@
 
       <c:choose>
         <c:when test="${not empty sessionScope.USER_INFO}">
+          <li class="nav-item <c:out value="${Constants.URL_TASK == cur_url ? 'active' : ''}"/>">
+            <a class="nav-link waves-effect waves-light" href="${Constants.URL_TASK}">Tasks</a>
+          </li>
           <li class="nav-item <c:out value="${Constants.URL_CATEGORIES == cur_url ? 'active' : ''}"/>">
             <a class="nav-link waves-effect waves-light" href="${Constants.URL_CATEGORIES}">Categories</a>
           </li>

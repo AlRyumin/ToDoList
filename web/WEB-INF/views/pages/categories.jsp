@@ -39,7 +39,13 @@
               <form method="post" action="${pageContext.request.contextPath}${Constants.URL_CATEGORY}">
                 <div class="row">
                   <div class="col-md-9">
-                    <c:out value="${node.category.name}"/>
+                    <div class="title">
+                      ${node.category.id}
+                      ${node.category.parentId}
+                      ${node.level}
+                      <c:if test="${node.level > 0}">-</c:if>
+                      <c:out value="${node.category.name}"/>
+                    </div>
                   </div>
                   <input type="hidden" name="id" value="<c:out value="${node.category.id}"/>">
                   <div class="col-md-3">
