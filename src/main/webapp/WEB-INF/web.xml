@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
   <filter>
     <filter-name>jdbcFilter</filter-name>
+    <!--<filter-class>main.filter.JDBCFilter</filter-class>-->
     <filter-class>main.filter.JDBCFilter</filter-class>
   </filter>
   <filter-mapping>

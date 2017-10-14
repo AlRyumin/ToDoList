@@ -5,7 +5,7 @@
  */
 package main.servlet;
 
-import com.mysql.jdbc.Util;
+//import com.mysql.jdbc.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
