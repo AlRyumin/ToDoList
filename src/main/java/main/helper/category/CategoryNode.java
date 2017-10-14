@@ -5,7 +5,7 @@
  */
 package main.helper.category;
 
-import java.util.ArrayList;
+import java.util.TreeMap;
 import main.db.model.Category;
 
 /**
@@ -15,8 +15,8 @@ import main.db.model.Category;
 public class CategoryNode {
 
   private Category category;
-  private ArrayList<CategoryNode> children = new ArrayList<>();
-  private int level = 0;
+  private final TreeMap<Integer, CategoryNode> children = new TreeMap<Integer, CategoryNode>();
+  private byte level = 0;
 
   public CategoryNode(Category category) {
     super();
@@ -31,7 +31,7 @@ public class CategoryNode {
     return category;
   }
 
-  public ArrayList<CategoryNode> getChildren() {
+  public TreeMap<Integer, CategoryNode> getChildren() {
     return children;
   }
 
@@ -40,11 +40,11 @@ public class CategoryNode {
   }
 
   public void setChild(CategoryNode child) {
-    children.add(child);
+    children.put(child.getCategory().getId(), child);
   }
 
-  public void upLevel(int level) {
-    this.level = level + 1;
+  public void upLevel(byte level) {
+    this.level = (byte) (level + 1);
   }
 
 }

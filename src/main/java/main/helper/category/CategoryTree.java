@@ -6,7 +6,8 @@
 package main.helper.category;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 import main.db.model.Category;
 
 /**
@@ -15,54 +16,62 @@ import main.db.model.Category;
  */
 public class CategoryTree {
 
-  private final ArrayList<Integer> show = new ArrayList<>();
-  private final ArrayList<CategoryNode> sortedNodes = new ArrayList<CategoryNode>();
-  private final ArrayList<CategoryNode> categories = new ArrayList<CategoryNode>();
+  private final ArrayList<CategoryNode> sortedNodes = new ArrayList<>();
+  private final TreeMap<Integer, CategoryNode> categories;
 
   public CategoryTree(ArrayList<Category> categories) {
+    this.categories = new TreeMap<>();
     for (Category cat : categories) {
-      this.categories.add(new CategoryNode(cat));
-    }
-  }
-
-  public void print() {
-    for (CategoryNode category : sortedNodes) {
-      for (int i = 0; i <= category.getLevel(); i++) {
-        System.out.print(" ");
-      }
-      System.out.println(category.getCategory().getName() + " id: " + category.getCategory().getId() + " level: " + category.getLevel());
+      this.categories.put(cat.getId(), new CategoryNode(cat));
     }
   }
 
   public ArrayList<CategoryNode> getNodes() {
-    ArrayList<CategoryNode> nodes = categories;
+    for (Map.Entry<Integer, CategoryNode> entry : categories.entrySet()) {
+      Integer key = entry.getKey();
+      CategoryNode node = entry.getValue();
 
-    for (CategoryNode node : nodes) {
-      show.add(node.getCategory().getId());
+      int parentId = node.getCategory().getParentId();
+      if (categories.get(parentId) == null) {
+        continue;
+      }
+      CategoryNode parentNode = categories.get(parentId);
+      parentNode.setChild(node);
     }
 
-    for (CategoryNode category : categories) {
-      for (CategoryNode node : nodes) {
-        if (category.getCategory().getParentId() == node.getCategory().getId()) {
-          node.setChild(category);
-          category.upLevel(node.getLevel());
-        }
+    ArrayList<Integer> toRemove = new ArrayList<>();
+    for (Map.Entry<Integer, CategoryNode> entry : categories.entrySet()) {
+      Integer key = entry.getKey();
+      CategoryNode node = entry.getValue();
+      if (node.getCategory().getParentId() != 0) {
+        toRemove.add(key);
       }
     }
 
-    sort(nodes);
+    for (Integer l : toRemove) {
+      categories.remove(l);
+    }
+
+    sort(categories, 0);
 
     return sortedNodes;
   }
 
-  private void sort(ArrayList<CategoryNode> nodes) {
-    for (CategoryNode node : nodes) {
-      if (show.contains(node.getCategory().getId())) {
-        show.removeAll(Arrays.asList(node.getCategory().getId()));
-        sortedNodes.add(node);
+  private void sort(TreeMap<Integer, CategoryNode> nodes, int level) {
+    for (Map.Entry<Integer, CategoryNode> entry : nodes.entrySet()) {
+      Integer key = entry.getKey();
+      CategoryNode node = entry.getValue();
+
+      if (node.getCategory().getParentId() == 0) {
+        level = 0;
       }
+
+      node.upLevel((byte) level);
+
+      sortedNodes.add(node);
+
       if (node.hasChildren()) {
-        sort(node.getChildren());
+        sort(node.getChildren(), ++level);
       }
     }
   }
