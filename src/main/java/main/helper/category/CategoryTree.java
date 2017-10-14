@@ -20,7 +20,7 @@ public class CategoryTree {
   private final TreeMap<Integer, CategoryNode> categories;
 
   public CategoryTree(ArrayList<Category> categories) {
-    this.categories = new TreeMap<>();
+    this.categories = new TreeMap<Integer, CategoryNode>();
     for (Category cat : categories) {
       this.categories.put(cat.getId(), new CategoryNode(cat));
     }
@@ -40,6 +40,7 @@ public class CategoryTree {
     }
 
     ArrayList<Integer> toRemove = new ArrayList<>();
+
     for (Map.Entry<Integer, CategoryNode> entry : categories.entrySet()) {
       Integer key = entry.getKey();
       CategoryNode node = entry.getValue();
@@ -52,28 +53,28 @@ public class CategoryTree {
       categories.remove(l);
     }
 
-    sort(categories, 0);
+    sort();
 
     return sortedNodes;
   }
 
-  private void sort(TreeMap<Integer, CategoryNode> nodes, int level) {
+  private void sort() {
+    byte level = 0;
+    sort(categories, level);
+  }
+
+  private void sort(TreeMap<Integer, CategoryNode> nodes, byte level) {
     for (Map.Entry<Integer, CategoryNode> entry : nodes.entrySet()) {
       Integer key = entry.getKey();
       CategoryNode node = entry.getValue();
 
-      if (node.getCategory().getParentId() == 0) {
-        level = 0;
-      }
-
-      node.upLevel((byte) level);
+      node.increaseLevel(level);
 
       sortedNodes.add(node);
 
       if (node.hasChildren()) {
-        sort(node.getChildren(), ++level);
+        sort(node.getChildren(), node.getLevel());
       }
     }
   }
-
 }

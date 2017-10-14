@@ -5,6 +5,7 @@
  */
 package main.servlet;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class CategoriesServlet extends HttpServlet {
 
       CategoryTree categoriesTree = new CategoryTree(categories);
       ArrayList<CategoryNode> nodes = categoriesTree.getNodes();
+
+      String json = new Gson().toJson(nodes);
 
       request.setAttribute("nodes", nodes);
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/categories.jsp");

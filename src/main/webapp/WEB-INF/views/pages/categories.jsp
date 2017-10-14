@@ -24,7 +24,7 @@
         <c:if test="${nodes != null}">
           <div class="input-group-addon">Parent:</div>
           <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="parent" name="parent">
-            <option value="0" selected="selected">choose...</option>
+            <option value="0" selected="selected">No Parent</option>
             <c:forEach var="node" items="${nodes}">
               <option value="<c:out value="${node.category.id}"/>"><c:out value="${node.category.name}"/></option>
             </c:forEach>
@@ -40,9 +40,6 @@
                 <div class="row">
                   <div class="col-md-9">
                     <div class="title">
-                      ${node.category.id}
-                      ${node.category.parentId}
-                      ${node.level}
                       <c:if test="${node.level > 0}">-</c:if>
                       <c:out value="${node.category.name}"/>
                     </div>

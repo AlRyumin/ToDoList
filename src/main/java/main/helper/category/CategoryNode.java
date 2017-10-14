@@ -23,7 +23,7 @@ public class CategoryNode {
     this.category = category;
   }
 
-  public int getLevel() {
+  public byte getLevel() {
     return level;
   }
 
@@ -43,7 +43,7 @@ public class CategoryNode {
     children.put(child.getCategory().getId(), child);
   }
 
-  public void upLevel(byte level) {
+  public void increaseLevel(byte level) {
     this.level = (byte) (level + 1);
   }
 
