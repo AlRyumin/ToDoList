@@ -19,22 +19,22 @@ public class CategoryTree {
   private final ArrayList<CategoryNode> sortedNodes = new ArrayList<>();
   private final TreeMap<Integer, CategoryNode> categories;
 
-  public CategoryTree(ArrayList<Category> categories) {
+  public CategoryTree(ArrayList<Category> categories)
+  {
     this.categories = new TreeMap<Integer, CategoryNode>();
-    for (Category cat : categories) {
+    for (Category cat : categories)
       this.categories.put(cat.getId(), new CategoryNode(cat));
-    }
   }
 
-  public ArrayList<CategoryNode> getNodes() {
+  public TreeMap<Integer, CategoryNode> getNodes()
+  {
     for (Map.Entry<Integer, CategoryNode> entry : categories.entrySet()) {
       Integer key = entry.getKey();
       CategoryNode node = entry.getValue();
 
       int parentId = node.getCategory().getParentId();
-      if (categories.get(parentId) == null) {
+      if (categories.get(parentId) == null)
         continue;
-      }
       CategoryNode parentNode = categories.get(parentId);
       parentNode.setChild(node);
     }
@@ -44,37 +44,40 @@ public class CategoryTree {
     for (Map.Entry<Integer, CategoryNode> entry : categories.entrySet()) {
       Integer key = entry.getKey();
       CategoryNode node = entry.getValue();
-      if (node.getCategory().getParentId() != 0) {
+      if (node.getCategory().getParentId() != 0)
         toRemove.add(key);
-      }
     }
 
-    for (Integer l : toRemove) {
+    for (Integer l : toRemove)
       categories.remove(l);
-    }
 
     sort();
 
+    return categories;
+  }
+
+  public ArrayList<CategoryNode> getListNodes()
+  {
     return sortedNodes;
   }
 
-  private void sort() {
+  private void sort()
+  {
     byte level = 0;
     sort(categories, level);
   }
 
-  private void sort(TreeMap<Integer, CategoryNode> nodes, byte level) {
+  private void sort(TreeMap<Integer, CategoryNode> nodes, byte level)
+  {
     for (Map.Entry<Integer, CategoryNode> entry : nodes.entrySet()) {
-      Integer key = entry.getKey();
       CategoryNode node = entry.getValue();
 
       node.increaseLevel(level);
 
       sortedNodes.add(node);
 
-      if (node.hasChildren()) {
+      if (node.hasChildren())
         sort(node.getChildren(), node.getLevel());
-      }
     }
   }
 }

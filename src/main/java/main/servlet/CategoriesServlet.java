@@ -5,10 +5,10 @@
  */
 package main.servlet;
 
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,11 +55,12 @@ public class CategoriesServlet extends HttpServlet {
       ArrayList<Category> categories = category.getCategories(user.getId());
 
       CategoryTree categoriesTree = new CategoryTree(categories);
-      ArrayList<CategoryNode> nodes = categoriesTree.getNodes();
+      TreeMap<Integer, CategoryNode> nodes = categoriesTree.getNodes();
+      ArrayList<CategoryNode> listNodes = categoriesTree.getListNodes();
 
-      String json = new Gson().toJson(nodes);
 
       request.setAttribute("nodes", nodes);
+      request.setAttribute("listNodes", listNodes);
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/categories.jsp");
       dispatcher.forward(request, response);
     } catch (Exception e) {

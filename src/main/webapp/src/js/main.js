@@ -11,5 +11,14 @@ $(document).ready(function () {
         direction: 'asc'
       }
     });
+
+    $('#categories ul > li > ul').hide();
+
+    $('#categories .title > .fa').click(function(){
+      var parent = $(this).closest("li");
+      parent.find("ul").toggle();
+//      $(this).toggleClass("fa-chevron-down fa-chevron-up");
+      parent.find(".title > .fa").toggleClass("fa-chevron-down fa-chevron-up");
+    });
   });
 });
