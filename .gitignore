@@ -1,4 +1,5 @@
 .idea
+src/main/java/main/test/
 ToDoList.iml
 nbactions.xml
 nb-configuration.xml

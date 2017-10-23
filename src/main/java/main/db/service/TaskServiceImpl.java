@@ -10,9 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeMap;
 import main.db.model.Category;
 import main.db.model.Task;
@@ -129,21 +127,20 @@ public class TaskServiceImpl implements TaskService {
     ArrayList<Task> tasks = new ArrayList<>();
     String queryParams = "";
     try {
-      for (Map.Entry<String, String> entry : params.entrySet())
-        System.out.println(entry.getKey() + ": " + entry.getValue());
-      if (isFieldEmpty(params.get("categoryId")) == false)
-        queryParams += " AND category_id = ?";
       if (isFieldEmpty(params.get("priority")) == false)
         queryParams += " AND priority = ?";
       if (isFieldEmpty(params.get("type")) == false)
         queryParams += " AND type = ?";
       if (isFieldEmpty(params.get("status")) == false)
         queryParams += " AND status = ?";
+      if (isFieldEmpty(params.get("categoryId")) == false) {
+        queryParams += " AND category_id = ?";
+        CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
+        ArrayList<Integer> categoriesIds = categoryService.getCategoryChildrenIds(Integer.parseInt(params.get("categoryId")));
+        queryParams += getQueryCategoriesParams(categoriesIds);
+      }
 
       String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date = ?" + queryParams;
-
-      System.out.println("Query: ");
-      System.out.println(query);
 
       int countParams = 3;
 
@@ -151,10 +148,6 @@ public class TaskServiceImpl implements TaskService {
 
       prepState.setInt(1, Integer.parseInt(params.get("userId")));
       prepState.setDate(2, DateHelper.dateStringToSqlDate(params.get("dueDate")));
-      if (isFieldEmpty(params.get("categoryId")) == false) {
-        prepState.setInt(countParams, Integer.parseInt(params.get("categoryId")));
-        countParams++;
-      }
       if (isFieldEmpty(params.get("priority")) == false) {
         prepState.setString(countParams, params.get("priority"));
         countParams++;
@@ -165,6 +158,10 @@ public class TaskServiceImpl implements TaskService {
       }
       if (isFieldEmpty(params.get("status")) == false) {
         prepState.setString(countParams, params.get("status"));
+        countParams++;
+      }
+      if (isFieldEmpty(params.get("categoryId")) == false) {
+        prepState.setInt(countParams, Integer.parseInt(params.get("categoryId")));
         countParams++;
       }
 
@@ -261,4 +258,11 @@ public class TaskServiceImpl implements TaskService {
     }
   }
 
+  private String getQueryCategoriesParams(ArrayList<Integer> ids) {
+    String queryParams = "";
+    for (Integer id : ids)
+      queryParams += " OR category_id = " + id;
+
+    return queryParams;
+  }
 }

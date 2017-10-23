@@ -96,6 +96,44 @@ public class CategoryServiceImpl implements CategoryService {
     return categories;
   }
 
+  public ArrayList<Integer> getCategoryChildrenIds(int id) {
+    final ArrayList<Integer> childrenIds = new ArrayList<>();
+
+    class Children {
+      public void getChildren(int parentId) {
+        try {
+          String query = "SELECT id FROM " + TABLE_NAME + " WHERE parent_id = ?";
+
+          PreparedStatement prepState = connection.prepareStatement(query);
+
+          prepState.setInt(1, parentId);
+
+          boolean hasResult = prepState.execute();
+
+          while (hasResult) {
+            ResultSet result = prepState.getResultSet();
+            while (result.next()) {
+              int id = result.getInt("id");
+              childrenIds.add(id);
+              getChildren(id);
+            }
+            result.close();
+            hasResult = prepState.getMoreResults();
+          }
+
+          prepState.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    Children children = new Children();
+    children.getChildren(id);
+
+    return childrenIds;
+  }
+
   public boolean update(int id, int userId, int parentId, String name) throws SQLException {
     String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, parent_id = ?, name = ? WHERE id = ?";
     PreparedStatement prepState = connection.prepareStatement(query);
@@ -118,4 +156,10 @@ public class CategoryServiceImpl implements CategoryService {
     prepState.execute();
   }
 
+  protected String setQueryCategoriesParams(ArrayList<Integer> ids, String queryParams) {
+    for (Integer id : ids)
+      queryParams += " OR category_id = " + id;
+
+    return queryParams;
+  }
 }
