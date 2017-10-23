@@ -100,9 +100,6 @@ public class CategoryServiceImpl implements CategoryService {
     String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, parent_id = ?, name = ? WHERE id = ?";
     PreparedStatement prepState = connection.prepareStatement(query);
 
-    System.out.println("Query: ");
-    System.out.println(query);
-
     prepState.setInt(1, userId);
     prepState.setInt(2, parentId);
     prepState.setString(3, name);

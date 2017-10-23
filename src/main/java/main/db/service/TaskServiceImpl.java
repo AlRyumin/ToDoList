@@ -6,11 +6,14 @@
 package main.db.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import main.db.model.Category;
 import main.db.model.Task;
 import main.db.model.TaskPriority;
@@ -18,6 +21,7 @@ import main.db.model.TaskStatus;
 import main.db.model.TaskType;
 import main.db.model.User;
 import main.helper.DateHelper;
+import static main.helper.FieldValidation.*;
 
 public class TaskServiceImpl implements TaskService {
 
@@ -36,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
       PreparedStatement prepState = connection.prepareStatement(query);
 
       String dueDate = task.getDueDate();
-      Timestamp date = DateHelper.dateStringToTimeStamp(dueDate);
+      Date date = DateHelper.dateStringToSqlDate(dueDate);
 
       prepState.setInt(1, task.getUserId());
       prepState.setString(2, task.getName());
@@ -45,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
       prepState.setString(5, task.getPriority().toString());
       prepState.setString(6, task.getType().toString());
       prepState.setString(7, task.getStatus().toString());
-      prepState.setTimestamp(8, date);
+      prepState.setDate(8, date);
 
       prepState.execute();
     } catch (SQLException e) {
@@ -61,14 +65,14 @@ public class TaskServiceImpl implements TaskService {
       PreparedStatement prepState = connection.prepareStatement(query);
 
       String dueDate = task.getDueDate();
-      Timestamp date = DateHelper.dateStringToTimeStamp(dueDate);
+      Date date = DateHelper.dateStringToSqlDate(dueDate);
 
       prepState.setInt(1, task.getUser());
       prepState.setInt(2, task.getCategoryId());
       prepState.setString(3, task.getPriority().toString().toLowerCase());
       prepState.setString(4, task.getType().toString().toLowerCase());
       prepState.setString(5, task.getStatus().toString().toLowerCase());
-      prepState.setTimestamp(6, date);
+      prepState.setDate(6, date);
       prepState.setInt(7, task.getId());
 
       prepState.execute();
@@ -96,9 +100,11 @@ public class TaskServiceImpl implements TaskService {
       TaskPriority priority = TaskPriority.valueOf(result.getString("priority").toUpperCase());
       TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
       TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
-      String dueDate = result.getString("due_date");
+      Date dueDate = result.getDate("due_date");
 
-      task = new Task(id, name, description, userId, categoryId, priority, type, status, dueDate);
+      String date = DateHelper.sqlDateToString(dueDate);
+
+      task = new Task(id, name, description, userId, categoryId, priority, type, status, date);
 
       CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
       Category category = categoryService.getCategory(task.getCategoryId());
@@ -108,6 +114,92 @@ public class TaskServiceImpl implements TaskService {
     }
 
     return task;
+  }
+
+  /*
+  TreeMap<String, String> params
+  userId
+  categoryId
+  priority
+  type
+  status
+  dueDate
+   */
+  public ArrayList<Task> get(TreeMap<String, String> params) {
+    ArrayList<Task> tasks = new ArrayList<>();
+    String queryParams = "";
+    try {
+      for (Map.Entry<String, String> entry : params.entrySet())
+        System.out.println(entry.getKey() + ": " + entry.getValue());
+      if (isFieldEmpty(params.get("categoryId")) == false)
+        queryParams += " AND category_id = ?";
+      if (isFieldEmpty(params.get("priority")) == false)
+        queryParams += " AND priority = ?";
+      if (isFieldEmpty(params.get("type")) == false)
+        queryParams += " AND type = ?";
+      if (isFieldEmpty(params.get("status")) == false)
+        queryParams += " AND status = ?";
+
+      String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date = ?" + queryParams;
+
+      System.out.println("Query: ");
+      System.out.println(query);
+
+      int countParams = 3;
+
+      PreparedStatement prepState = connection.prepareStatement(query);
+
+      prepState.setInt(1, Integer.parseInt(params.get("userId")));
+      prepState.setDate(2, DateHelper.dateStringToSqlDate(params.get("dueDate")));
+      if (isFieldEmpty(params.get("categoryId")) == false) {
+        prepState.setInt(countParams, Integer.parseInt(params.get("categoryId")));
+        countParams++;
+      }
+      if (isFieldEmpty(params.get("priority")) == false) {
+        prepState.setString(countParams, params.get("priority"));
+        countParams++;
+      }
+      if (isFieldEmpty(params.get("type")) == false) {
+        prepState.setString(countParams, params.get("type"));
+        countParams++;
+      }
+      if (isFieldEmpty(params.get("status")) == false) {
+        prepState.setString(countParams, params.get("status"));
+        countParams++;
+      }
+
+      boolean hasResult = prepState.execute();
+
+      while (hasResult) {
+        ResultSet result = prepState.getResultSet();
+        while (result.next()) {
+          int taskId = result.getInt("id");
+          String name = result.getString("name");
+          String description = result.getString("description");
+          int userId = result.getInt("user_id");
+          int categoryId = result.getInt("category_id");
+          TaskPriority priority = TaskPriority.valueOf(result.getString("priority").toUpperCase());
+          TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
+          TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
+          Date dueDate = result.getDate("due_date");
+
+          String date = DateHelper.sqlDateToString(dueDate);
+
+          Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
+
+          CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
+          Category category = categoryService.getCategory(task.getCategoryId());
+          task.setCategory(category);
+
+          tasks.add(task);
+        }
+        hasResult = prepState.getMoreResults();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return tasks;
   }
 
   @Override
@@ -133,9 +225,9 @@ public class TaskServiceImpl implements TaskService {
           TaskPriority priority = TaskPriority.valueOf(result.getString("priority").toUpperCase());
           TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
           TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
-          Timestamp dueDate = result.getTimestamp("due_date");
+          Date dueDate = result.getDate("due_date");
 
-          String date = DateHelper.timeStapmToString(dueDate);
+          String date = DateHelper.sqlDateToString(dueDate);
 
           Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
 

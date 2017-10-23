@@ -1,28 +1,47 @@
 package main.helper;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+import static main.utils.Constants.DATE_FORMAT;
 
 public class DateHelper {
 
-  public final static String DATE_FORMAT = "dd-MM-yyyy";
-
-  public static Timestamp dateStringToTimeStamp(String date) {
-    Timestamp timestamp = null;
+  public static Date dateStringToSqlDate(String dateString)
+  {
+    Date sqlDate = null;
     try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-      Date parsedDate = (Date) dateFormat.parse(date);
-      timestamp = new java.sql.Timestamp(parsedDate.getTime());
+      SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+      format.setTimeZone(TimeZone.getTimeZone("GMT"));
+      java.util.Date date = format.parse(dateString);
+      sqlDate = new Date(date.getTime());
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return timestamp;
+    return sqlDate;
   }
 
-  public static String timeStapmToString(Timestamp date) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-    String string = dateFormat.format(date);
-    return string;
+  public static String sqlDateToString(Date sqlDate)
+  {
+    String date = "";
+    try {
+      DateFormat format = new SimpleDateFormat(DATE_FORMAT);
+      date = format.format(sqlDate);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return date;
+  }
+
+  public static Date getCurrentSqlDate(){
+
+    return null;
+  }
+
+  public static String getCurrentDateString(){
+    SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+    String date = format.format(new java.util.Date());
+    return date;
   }
 }

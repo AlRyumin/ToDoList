@@ -3,6 +3,9 @@ body{
   min-height: 100vh;
   flex-direction: column;
 }
+a.btn{
+  cursor: pointer;
+}
 .container.content{
   flex: 1;
 }
@@ -52,4 +55,33 @@ header.header{
 
 .required{
   color: #FF0000;
+}
+
+.selectize-control{
+  min-width: 200px;
+}
+
+.task{
+  border: 1px solid rgba(0,0,0,.35);
+  margin: 5px 0;
+}
+.task a.btn .fa{
+  font-size: 24px;
+}
+.task .title{
+  padding: 10px;
+}
+.task.done .title{
+  color: #E0E0E0;
+  text-decoration: line-through;
+}
+.task.done a.complete{
+  pointer-events: none;
+  color: #E0E0E0;
+}
+
+.task > .details-content{
+  display: none;
+  border-top: 1px solid rgba(0,0,0,.15);
+  padding: 10px;
 }

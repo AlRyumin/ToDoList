@@ -13,107 +13,150 @@ public class Task {
   private final int id;
   private String name;
   private String description = "";
-  private int userId, categoryId;
+  private int userId, categoryId, parentId;
   private TaskPriority priority;
   private TaskType type;
   private TaskStatus status;
   private String dueDate;
   private Category category = null;
 
-  public Task(int id, String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate) {
+  public Task(int id, String name, String description, int userId, int categoryId, int parentId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+  {
     this.id = id;
     this.name = name;
     this.description = description;
     this.userId = userId;
     this.categoryId = categoryId;
+    this.parentId = parentId;
     this.priority = priority;
     this.type = type;
     this.status = status;
     this.dueDate = dueDate;
   }
+  
+  public Task(int id, String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+  {
+    this(id, name, description, userId, categoryId, 0, priority, type, status, dueDate);
+  }
 
-  public Task(String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate) {
+  public Task(int id)
+  {
+    this.id = id;
+  }
+
+  public Task(String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+  {
     this(0, name, description, userId, categoryId, priority, type, status, dueDate);
   }
 
-  public int getId() {
+  public int getId()
+  {
     return id;
   }
 
-  public int getUser() {
+  public int getUser()
+  {
     return userId;
   }
 
-  public Category getCategory() {
+  public Category getCategory()
+  {
     return category;
   }
 
-  public TaskPriority getPriority() {
+  public TaskPriority getPriority()
+  {
     return priority;
   }
 
-  public TaskType getType() {
+  public TaskType getType()
+  {
     return type;
   }
 
-  public TaskStatus getStatus() {
+  public TaskStatus getStatus()
+  {
     return status;
   }
 
-  public String getDueDate() {
+  public String getDueDate()
+  {
     return dueDate;
   }
 
-  public int getUserId() {
+  public int getUserId()
+  {
     return userId;
   }
 
-  public int getCategoryId() {
+  public int getCategoryId()
+  {
     return categoryId;
   }
 
-  public String getName() {
+  public String getName()
+  {
     return name;
   }
 
-  public String getDescription() {
+  public String getDescription()
+  {
     return description;
   }
 
-  public void setCategory(Category category) {
+  public int getParentId()
+  {
+    return parentId;
+  }
+
+  public void setCategory(Category category)
+  {
     this.category = category;
   }
 
-  public void setPriority(TaskPriority priority) {
+  public void setPriority(TaskPriority priority)
+  {
     this.priority = priority;
   }
 
-  public void setType(TaskType type) {
+  public void setType(TaskType type)
+  {
     this.type = type;
   }
 
-  public void setStatus(TaskStatus status) {
+  public void setStatus(TaskStatus status)
+  {
     this.status = status;
   }
 
-  public void setDueDate(String dueDate) {
+  public void setDueDate(String dueDate)
+  {
     this.dueDate = dueDate;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(int userId)
+  {
     this.userId = userId;
   }
 
-  public void setCategoryId(int categoryId) {
+  public void setCategoryId(int categoryId)
+  {
     this.categoryId = categoryId;
   }
 
-  public void setName(String name) {
+  public void setName(String name)
+  {
     this.name = name;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(String description)
+  {
     this.description = description;
+  }
+
+  public void setParentId(int parentId)
+  {
+    this.parentId = parentId;
   }
 
 }

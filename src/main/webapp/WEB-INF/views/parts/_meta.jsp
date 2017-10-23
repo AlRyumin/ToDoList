@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/style.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/botosrap/bootstrap.min.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/jquery/jquery-ui.css" />" />

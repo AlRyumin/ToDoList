@@ -8,6 +8,7 @@ package main.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -24,8 +25,10 @@ import main.db.model.TaskType;
 import main.db.model.User;
 import main.db.service.CategoryServiceImpl;
 import main.db.service.TaskServiceImpl;
+import main.helper.DateHelper;
 import main.helper.RedirectHelper;
 import main.utils.Utils;
+import static main.helper.FieldValidation.isFieldEmpty;
 import static main.utils.Constants.*;
 
 /**
@@ -48,11 +51,10 @@ public class TaskServlet extends HttpServlet {
           throws ServletException, IOException {
 
     String add = request.getParameter("add");
-    if (add != null) {
+    if (add != null)
       addTaskGet(request, response);
-    } else {
+    else
       showTasks(request, response);
-    }
   }
 
   /**
@@ -68,9 +70,8 @@ public class TaskServlet extends HttpServlet {
           throws ServletException, IOException {
     String add = request.getParameter("add");
 
-    if (add != null) {
+    if (add != null)
       addTaskPost(request, response);
-    }
   }
 
   /**
@@ -91,15 +92,43 @@ public class TaskServlet extends HttpServlet {
       Connection connection = Utils.getConnection(request);
       TaskServiceImpl taskService = new TaskServiceImpl(connection);
       CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
-      ArrayList<Task> tasks = taskService.get(user);
       ArrayList<Category> categories = categoryService.getCategories(user.getId());
       TaskPriority[] priorities = TaskPriority.values();
       TaskType[] types = TaskType.values();
+      TaskStatus[] statuses = TaskStatus.values();
+
+      TreeMap<String, String> params = new TreeMap<>();
+
+      String userId = Integer.toString(user.getId());
+
+      String categoryId = request.getParameter("category");
+      String priority = request.getParameter("priority");
+      String type = request.getParameter("type");
+      String status = request.getParameter("status");
+      String dueDate = request.getParameter("due_date");
+      if (dueDate == null)
+        dueDate = DateHelper.getCurrentDateString();
+
+      params.put("userId", userId);
+      params.put("categoryId", categoryId);
+      params.put("priority", priority);
+      params.put("type", type);
+      params.put("status", status);
+      params.put("dueDate", dueDate);
+
+      ArrayList<Task> tasks = taskService.get(params);
+
+      request.setAttribute("currentCategory", isFieldEmpty(categoryId) ? "" : categoryId);
+      request.setAttribute("currentPriority", isFieldEmpty(priority) ? "" : priority);
+      request.setAttribute("currentType", isFieldEmpty(type) ? "" : type);
+      request.setAttribute("currentStatus", isFieldEmpty(status) ? "" : status);
 
       request.setAttribute("tasks", tasks);
       request.setAttribute("categories", categories);
       request.setAttribute("priorities", priorities);
       request.setAttribute("types", types);
+      request.setAttribute("statuses", statuses);
+      request.setAttribute("due_date", dueDate);
 
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/tasks.jsp");
       dispatcher.forward(request, response);
@@ -132,7 +161,7 @@ public class TaskServlet extends HttpServlet {
 
   public void addTaskPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-      ServletOutputStream out = response.getOutputStream();
+    ServletOutputStream out = response.getOutputStream();
     try {
 
       HttpSession session = request.getSession();

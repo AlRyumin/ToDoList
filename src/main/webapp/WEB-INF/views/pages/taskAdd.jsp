@@ -1,5 +1,6 @@
 <%@page import="main.utils.Constants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="main.db.model.TaskPriority" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,7 @@
             <div class="col-10">
               <select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="priority">
                 <c:forEach var="priority" items="${priorities}">
-                  <option value="${priority}">${priority}</option>
+                  <option value="${priority}" <c:if test="${priority.equals(TaskPriority.NORMAL)}">selected="selected"</c:if>>${priority}</option>
                 </c:forEach>
               </select>
             </div>
