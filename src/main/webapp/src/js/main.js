@@ -25,8 +25,9 @@ $(document).ready(function () {
       parent.find(".title > .fa").toggleClass("fa-chevron-down fa-chevron-up");
     });
 
-    $(".task a.details").click(function () {
+    $(".task .btn.details").click(function () {
       $(this).closest(".task").find(".details-content").toggle();
+      $(this).toggleClass("active");
     });
   });
 });

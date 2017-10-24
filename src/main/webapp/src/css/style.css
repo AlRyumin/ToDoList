@@ -3,7 +3,7 @@ body{
   min-height: 100vh;
   flex-direction: column;
 }
-a.btn{
+.btn{
   cursor: pointer;
 }
 .container.content{
@@ -65,7 +65,16 @@ header.header{
   border: 1px solid rgba(0,0,0,.35);
   margin: 5px 0;
 }
-.task a.btn .fa{
+.task .btn{
+  background-color: transparent;
+  color: #007bff;
+  text-decoration: none;
+}
+.task .btn.active,
+.task .btn:hover{
+  color: #0056b3;
+}
+.task .btn .fa{
   font-size: 24px;
 }
 .task .title{

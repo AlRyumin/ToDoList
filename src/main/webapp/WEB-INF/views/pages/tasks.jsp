@@ -88,8 +88,8 @@
                     </div>
                   </div>
                   <div class="col-md-2">
-                    <a class="btn complete" href="#"><i class="fa fa-check-square-o"></i></a>
-                    <a class="btn details" href="#"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn complete" href="${pageContext.request.contextPath}${Constants.URL_TASK_COMPLETE}?id=${task.id}"><i class="fa fa-check-square-o"></i></a>
+                    <span class="btn details" href="#"><i class="fa fa-info-circle"></i></span>
                     <a class="btn" href="#"><i class="fa fa-pencil-square-o"></i></a>
                   </div>
                 </div>

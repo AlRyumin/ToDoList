@@ -20,6 +20,7 @@ public class Constants {
   public static final String URL_TASK = "/task";
   public static final String URL_TASK_ADD = "/task?add=1";
   public static final String URL_TASK_DETAIL = "/task/details";
+  public static final String URL_TASK_COMPLETE = "/task/complete";
 
   public final static String DATE_FORMAT = "dd-MM-yyyy";
 }

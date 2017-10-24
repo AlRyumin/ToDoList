@@ -91,22 +91,25 @@ public class TaskServiceImpl implements TaskService {
 
       ResultSet result = prepState.executeQuery();
 
-      int userId = result.getInt("user_id");
-      String name = result.getString("name");
-      String description = result.getString("description");
-      int categoryId = result.getInt("category_id");
-      TaskPriority priority = TaskPriority.valueOf(result.getString("priority").toUpperCase());
-      TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
-      TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
-      Date dueDate = result.getDate("due_date");
+      if (result.next()) {
+        int taskId = result.getInt("id");
+        String name = result.getString("name");
+        String description = result.getString("description");
+        int userId = result.getInt("user_id");
+        int categoryId = result.getInt("category_id");
+        TaskPriority priority = TaskPriority.valueOf(result.getString("priority").toUpperCase());
+        TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
+        TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
+        Date dueDate = result.getDate("due_date");
 
-      String date = DateHelper.sqlDateToString(dueDate);
+        String date = DateHelper.sqlDateToString(dueDate);
 
-      task = new Task(id, name, description, userId, categoryId, priority, type, status, date);
+        task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
 
-      CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
-      Category category = categoryService.getCategory(task.getCategoryId());
-      task.setCategory(category);
+        CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
+        Category category = categoryService.getCategory(task.getCategoryId());
+        task.setCategory(category);
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
