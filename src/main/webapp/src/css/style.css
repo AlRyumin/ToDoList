@@ -87,7 +87,7 @@ header.header{
   padding: 10px;
 }
 .task.done .title{
-  color: #E0E0E0;
+  color: #676767;
   text-decoration: line-through;
 }
 .task.done a.complete{
@@ -99,4 +99,52 @@ header.header{
   display: none;
   border-top: 1px solid rgba(0,0,0,.15);
   padding: 10px;
+}
+
+.selectize-control.single,
+.selectize-control.single .selectize-input{
+  height: 38px;
+}
+
+#tasks button, #tasks .filters h3{
+  margin-top: 22px;
+}
+#tasks .filters .filters-content{
+  margin-bottom: 20px;
+}
+#tasks .details-content .cap{
+  font-size: 14px;
+  font-weight: 700;
+}
+@media only screen and (max-width: 720px) {
+  #tasks .filters h3{
+    color: #007bff;
+  }
+  #tasks .filters h3 .fa{
+    font-size: 20px;
+    position: relative;
+    top: -2px;
+  }
+  #tasks .filters label{
+    min-width: 70px;
+    display: inline-block;
+  }
+  #tasks .filters .filters-content{
+    display: none;
+  }
+  #tasks .filters .mb-2{
+    width: 100%;
+    margin-bottom: .5rem!important;
+  }
+  #tasks .details-content .cap{
+    margin-top: 10px;
+  }
+  #tasks button{
+    margin-top: 10px;
+    width: 100px;
+  }
+  .selectize-control.single{
+    display: inline-block;
+    vertical-align: middle;
+  }
 }

@@ -146,6 +146,8 @@ public class TaskServiceImpl implements TaskService {
         queryParams += ")";
       }
 
+      queryParams += " ORDER BY status ASC";
+
       String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date = ?" + queryParams;
 
       int countParams = 3;

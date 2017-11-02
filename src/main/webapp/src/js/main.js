@@ -27,5 +27,10 @@ $(document).ready(function () {
       $(this).closest(".task").find(".details-content").toggle();
       $(this).toggleClass("active");
     });
+
+    $("#tasks .filters h3").click(function () {
+      $("#tasks .filters-content").toggle();
+      $(this).find(".fa").toggleClass("fa-chevron-down fa-chevron-up");
+    });
   });
 });
