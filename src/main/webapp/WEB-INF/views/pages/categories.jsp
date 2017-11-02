@@ -16,7 +16,7 @@
         out.print("<form method='post' action='" + request.getContextPath() + Constants.URL_CATEGORY + "'>");
         out.print("<div class='title'>");
         if (val.hasChildren())
-          out.print("<i class='fa fa-chevron-down'></i>");
+          out.print("<i class='fa fa-chevron-up'></i>");
         out.print(val.getCategory().getName());
         out.print("<button type='submit' class='btn btn-primary'><i class='fa fa-edit'></i></button>  ");
         out.print("</div>");

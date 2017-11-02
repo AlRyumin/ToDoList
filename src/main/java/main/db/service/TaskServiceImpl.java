@@ -58,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public void update(Task task) {
     try {
-      String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, category_id = ?, priority = ?, type = ?, status = ?, due_date = ? WHERE id = ?";
+      String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, category_id = ?, priority = ?, type = ?, status = ?, due_date = ?, name = ?, description = ? WHERE id = ?";
 
       PreparedStatement prepState = connection.prepareStatement(query);
 
@@ -71,7 +71,9 @@ public class TaskServiceImpl implements TaskService {
       prepState.setString(4, task.getType().toString().toLowerCase());
       prepState.setString(5, task.getStatus().toString().toLowerCase());
       prepState.setDate(6, date);
-      prepState.setInt(7, task.getId());
+      prepState.setString(7, task.getName());
+      prepState.setString(8, task.getDescription());
+      prepState.setInt(9, task.getId());
 
       prepState.execute();
     } catch (SQLException e) {

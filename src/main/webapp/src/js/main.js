@@ -17,8 +17,6 @@ $(document).ready(function () {
       }
     });
 
-    $('#categories ul > li > ul').hide();
-
     $('#categories .title > .fa').click(function () {
       var parent = $(this).closest("li");
       parent.find("ul").toggle();

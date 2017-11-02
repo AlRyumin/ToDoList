@@ -161,7 +161,6 @@ public class TaskServlet extends HttpServlet {
 
   public void addTaskPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    ServletOutputStream out = response.getOutputStream();
     try {
 
       HttpSession session = request.getSession();
