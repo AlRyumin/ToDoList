@@ -139,10 +139,11 @@ public class TaskServiceImpl implements TaskService {
       if (isFieldEmpty(params.get("status")) == false)
         queryParams += " AND status = ?";
       if (isFieldEmpty(params.get("categoryId")) == false) {
-        queryParams += " AND category_id = ?";
+        queryParams += " AND (category_id = ?";
         CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
         ArrayList<Integer> categoriesIds = categoryService.getCategoryChildrenIds(Integer.parseInt(params.get("categoryId")));
         queryParams += getQueryCategoriesParams(categoriesIds);
+        queryParams += ")";
       }
 
       String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date = ?" + queryParams;
