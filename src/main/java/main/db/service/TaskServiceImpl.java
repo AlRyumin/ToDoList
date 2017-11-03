@@ -126,7 +126,8 @@ public class TaskServiceImpl implements TaskService {
   priority
   type
   status
-  dueDate
+  startDate
+  endDate
    */
   public ArrayList<Task> get(TreeMap<String, String> params) {
     ArrayList<Task> tasks = new ArrayList<>();
@@ -148,14 +149,15 @@ public class TaskServiceImpl implements TaskService {
 
       queryParams += " ORDER BY status ASC";
 
-      String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date = ?" + queryParams;
+      String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date >= ? AND due_date <= ?" + queryParams;
 
-      int countParams = 3;
+      int countParams = 4;
 
       PreparedStatement prepState = connection.prepareStatement(query);
 
       prepState.setInt(1, Integer.parseInt(params.get("userId")));
-      prepState.setDate(2, DateHelper.dateStringToSqlDate(params.get("dueDate")));
+      prepState.setDate(2, DateHelper.dateStringToSqlDate(params.get("startDate")));
+      prepState.setDate(3, DateHelper.dateStringToSqlDate(params.get("endDate")));
       if (isFieldEmpty(params.get("priority")) == false) {
         prepState.setString(countParams, params.get("priority"));
         countParams++;

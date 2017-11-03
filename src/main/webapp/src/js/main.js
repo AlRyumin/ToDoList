@@ -6,10 +6,6 @@ $(document).ready(function () {
       dateFormat: dateFormat
     });
 
-    $("#task-datepicker").datepicker({
-      dateFormat: dateFormat
-    });
-
     $('#select-category').selectize({
       sortField: {
         field: 'text',

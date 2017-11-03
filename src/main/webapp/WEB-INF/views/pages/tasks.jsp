@@ -21,7 +21,7 @@
           <div class="filters-content">
             <form class="form-inline" method="get" action="${pageContext.request.contextPath}${Constants.URL_TASK}">
               <h3 class="input-group mb-2 mr-sm-2 mb-sm-0 d-none d-md-block">Filters:</h3>
-                <c:if test="${categories != null}">
+              <c:if test="${categories != null}">
                 <div class="mb-2 mr-sm-2 mb-sm-0">
                   <label for="category">Category</label>
                   <select id="select-category" name="category">
@@ -72,10 +72,12 @@
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <label for="type">Due Date</label>
                 <div class="input-group">
-                  <input type="text" id="task-datepicker" name="due_date" class="form-control" value="${due_date}">
+                  <input id="date-range" name="due_date" class="form-control" value="${start_date} to ${end_date}">
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
+              <input type="hidden" name="start_date" value="${start_date}"/>
+              <input type="hidden" name="end_date" value="${end_date}"/>
               <button class="btn btn-secondary">Apply</button>
             </form>
           </div>

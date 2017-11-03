@@ -6,10 +6,14 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/jquery/jquery-ui.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/selectize.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/src/css/font-awesome/font-awesome.min.css" />" />
-<!--<link type="text/css" rel="stylesheet" href="<c:url value="https://use.fontawesome.com/9503366634.css" />" />-->
+<link rel="stylesheet" href="/src/css/daterangepicker/daterangepicker.min.css" />
 
 <script src='<c:url value="/src/js/jquery/jquery-3.2.1.min.js" />'></script>
 <script src='<c:url value="/src/js/jquery/jquery-ui.min.js" />'></script>
 <script src='<c:url value="/src/js/bootsrap/bootstrap.min.js" />'></script>
 <script src='<c:url value="/src/js/selectize.min.js" />'></script>
+<script src='<c:url value="/src/js/moment.min.js" />'></script>
+<script src='<c:url value="/src/js/daterangepicker/jquery.daterangepicker.min.js" />'></script>
+
 <script src='<c:url value="/src/js/main.js" />'></script>
+<script src='<c:url value="/src/js/pages/show_tasks.js" />'></script>

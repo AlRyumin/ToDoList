@@ -112,9 +112,13 @@ header.header{
 #tasks .filters .filters-content{
   margin-bottom: 20px;
 }
+#tasks .filters input#date-range{
+  min-width: 212px;
+}
 #tasks .details-content .cap{
   font-size: 14px;
   font-weight: 700;
+  padding-top: 2px;
 }
 @media only screen and (max-width: 720px) {
   #tasks .filters h3{

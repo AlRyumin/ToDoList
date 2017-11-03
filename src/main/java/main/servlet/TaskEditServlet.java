@@ -96,6 +96,7 @@ public class TaskEditServlet extends HttpServlet {
       String type = request.getParameter("type");
       String status = request.getParameter("status");
       String dueDate = request.getParameter("due_date");
+      String previous_url = request.getParameter("previous_url");
 
       int categoryId = Integer.parseInt(category);
       TaskPriority taskPriority = TaskPriority.valueOf(priority);
@@ -106,7 +107,7 @@ public class TaskEditServlet extends HttpServlet {
 
       taskService.update(task);
 
-      response.sendRedirect(URL_TASK);
+      response.sendRedirect(previous_url);
     } catch (Exception e) {
       e.printStackTrace();
       RedirectHelper.continueWithError(request, response, e.getMessage(), "/WEB-INF/views/pages/taskAdd.jsp");

@@ -105,16 +105,21 @@ public class TaskServlet extends HttpServlet {
       String priority = request.getParameter("priority");
       String type = request.getParameter("type");
       String status = request.getParameter("status");
-      String dueDate = request.getParameter("due_date");
-      if (dueDate == null)
-        dueDate = DateHelper.getCurrentDateString();
+      String startDate = request.getParameter("start_date");
+      String endDate = request.getParameter("end_date");
+
+      if (isFieldEmpty(startDate))
+        startDate = DateHelper.getCurrentDateString();
+      if (isFieldEmpty(endDate))
+        endDate = DateHelper.getCurrentDateString();
 
       params.put("userId", userId);
       params.put("categoryId", categoryId);
       params.put("priority", priority);
       params.put("type", type);
       params.put("status", status);
-      params.put("dueDate", dueDate);
+      params.put("startDate", startDate);
+      params.put("endDate", endDate);
 
       ArrayList<Task> tasks = taskService.get(params);
 
@@ -128,12 +133,13 @@ public class TaskServlet extends HttpServlet {
       request.setAttribute("priorities", priorities);
       request.setAttribute("types", types);
       request.setAttribute("statuses", statuses);
-      request.setAttribute("due_date", dueDate);
+      request.setAttribute("start_date", startDate);
+      request.setAttribute("end_date", endDate);
 
       RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/tasks.jsp");
       dispatcher.forward(request, response);
     } catch (Exception e) {
-
+      e.printStackTrace();
     }
   }
 

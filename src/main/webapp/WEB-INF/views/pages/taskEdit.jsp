@@ -91,6 +91,7 @@
           </div>
         </div>
 
+        <input type="hidden" name="previous_url" value="${pageContext.request.getHeader("referer")}"/>
         <input type="hidden" name="id" value="${pageContext.request.getParameter("id")}"/>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
