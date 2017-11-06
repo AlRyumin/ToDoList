@@ -101,7 +101,7 @@ public class CategoryServlet extends HttpServlet {
         CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
         categoryService.update(id, user.getId(), parentId, name);
 
-        response.sendRedirect(URL_CATEGORIES);
+        response.sendRedirect(request.getContextPath() + URL_CATEGORIES);
       } catch (Exception e) {
         e.printStackTrace();
         continueWithError(request, response, e.getMessage());
@@ -113,7 +113,7 @@ public class CategoryServlet extends HttpServlet {
         CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
         categoryService.delete(id);
 
-        response.sendRedirect(URL_CATEGORIES);
+        response.sendRedirect(request.getContextPath() + URL_CATEGORIES);
       } catch (Exception e) {
         e.printStackTrace();
         continueWithError(request, response, e.getMessage());

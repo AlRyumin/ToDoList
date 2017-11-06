@@ -81,7 +81,7 @@ public class RegisterServlet extends HttpServlet {
     } else {
 //      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/views/pages/home.jsp");
 //      dispatcher.forward(request, response);
-      response.sendRedirect(request.getContextPath() + "/");
+      response.sendRedirect(request.getContextPath() + URL_HOME);
     }
   }
 

@@ -189,7 +189,7 @@ public class TaskServlet extends HttpServlet {
 
       taskService.create(task);
 
-      response.sendRedirect(URL_TASK);
+      response.sendRedirect(request.getContextPath() + URL_TASK);
     } catch (Exception e) {
       e.printStackTrace();
       RedirectHelper.continueWithError(request, response, e.getMessage(), "/WEB-INF/views/pages/taskAdd.jsp");

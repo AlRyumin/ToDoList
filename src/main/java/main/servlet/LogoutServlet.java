@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import main.utils.Utils;
+import static main.utils.Constants.*;
 
 /**
  *
  * @author root
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
+@WebServlet(name = "LogoutServlet", urlPatterns = {URL_LOGOUT})
 public class LogoutServlet extends HttpServlet {
 
   /**
@@ -34,7 +35,7 @@ public class LogoutServlet extends HttpServlet {
           throws ServletException, IOException {
     HttpSession session = request.getSession();
     Utils.setUserSession(session, null);
-    response.sendRedirect("/");
+    response.sendRedirect(request.getContextPath() + URL_HOME);
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

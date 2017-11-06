@@ -49,7 +49,7 @@ public class TaskCompleteServlet extends HttpServlet {
 
       taskService.update(task);
 
-      response.sendRedirect(request.getHeader("referer"));
+      response.sendRedirect(request.getContextPath() + request.getHeader("referer"));
     } catch (Exception e) {
       e.printStackTrace();
     }

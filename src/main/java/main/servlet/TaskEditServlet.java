@@ -107,7 +107,7 @@ public class TaskEditServlet extends HttpServlet {
 
       taskService.update(task);
 
-      response.sendRedirect(previous_url);
+      response.sendRedirect(request.getContextPath() + previous_url);
     } catch (Exception e) {
       e.printStackTrace();
       RedirectHelper.continueWithError(request, response, e.getMessage(), "/WEB-INF/views/pages/taskAdd.jsp");

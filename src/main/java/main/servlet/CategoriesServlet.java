@@ -46,7 +46,7 @@ public class CategoriesServlet extends HttpServlet {
           throws ServletException, IOException {
     HttpSession session = request.getSession();
 
-    checkUserLoggedIn(session, response);
+    checkUserLoggedIn(session, request, response);
 
     try {
       User user = Utils.getUserSession(session);
@@ -83,7 +83,7 @@ public class CategoriesServlet extends HttpServlet {
     HttpSession session = request.getSession();
     String error = "";
 
-    checkUserLoggedIn(session, response);
+    checkUserLoggedIn(session, request, response);
 
     String name = request.getParameter("name");
     String parent = request.getParameter("parent");
@@ -97,7 +97,7 @@ public class CategoriesServlet extends HttpServlet {
       CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
       Category category = new Category(user.getId(), parentId, name);
       categoryService.createCategory(category);
-      response.sendRedirect(URL_CATEGORIES);
+      response.sendRedirect(request.getContextPath() + URL_CATEGORIES);
     } catch (Exception e) {
       e.printStackTrace();
       continueWithError(request, response, e.getMessage());
@@ -114,10 +114,10 @@ public class CategoriesServlet extends HttpServlet {
     return "Short description";
   }
 
-  protected void checkUserLoggedIn(HttpSession session, HttpServletResponse response) throws IOException {
+  protected void checkUserLoggedIn(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (Utils.getUserSession(session) == null) {
       session.setAttribute("error", "Login required.");
-      response.sendRedirect("/");
+      response.sendRedirect(request.getContextPath() + URL_HOME);
     }
   }
 

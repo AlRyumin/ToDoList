@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
       else
         Utils.deleteUserCookie(response);
 
-      response.sendRedirect("/");
+      response.sendRedirect(request.getContextPath() + URL_HOME);
     } catch (SQLException e) {
       errorLogin += e.getMessage();
       request.setAttribute("errorLogin", errorLogin);
