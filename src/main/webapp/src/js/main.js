@@ -6,6 +6,8 @@ $(document).ready(function () {
       dateFormat: dateFormat
     });
 
+    $('#datepicker').datepicker('setDate', new Date());
+    
     $('#select-category').selectize({
       sortField: {
         field: 'text',

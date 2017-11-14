@@ -32,6 +32,7 @@
             <label for="category" class="col-2 col-form-label">Category:</label>
             <div class="col-10">
               <select id="select-category" name="category" >
+                <option value="" disabled="disabled" selected="selected">Select category</option>
                 <c:forEach var="category" items="${categories}">
                   <option value="${category.id}">${category.name}</option>
                 </c:forEach>
