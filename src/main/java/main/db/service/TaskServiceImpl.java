@@ -58,7 +58,8 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public void update(Task task) {
     try {
-      String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, category_id = ?, priority = ?, type = ?, status = ?, due_date = ?, name = ?, description = ? WHERE id = ?";
+      String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, category_id = ?, priority = ?, type = ?, "
+              + "status = ?, due_date = ?, name = ?, description = ?, sort_order = ? WHERE id = ?";
 
       PreparedStatement prepState = connection.prepareStatement(query);
 
@@ -73,7 +74,8 @@ public class TaskServiceImpl implements TaskService {
       prepState.setDate(6, date);
       prepState.setString(7, task.getName());
       prepState.setString(8, task.getDescription());
-      prepState.setInt(9, task.getId());
+      prepState.setShort(9, task.getSortOrder());
+      prepState.setInt(10, task.getId());
 
       prepState.execute();
     } catch (SQLException e) {
@@ -103,10 +105,11 @@ public class TaskServiceImpl implements TaskService {
         TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
         TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
         Date dueDate = result.getDate("due_date");
+        short sortOrder = result.getShort("sort_order");
 
         String date = DateHelper.sqlDateToString(dueDate);
 
-        task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
+        task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date, sortOrder);
 
         CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
         Category category = categoryService.getCategory(task.getCategoryId());
@@ -147,7 +150,7 @@ public class TaskServiceImpl implements TaskService {
         queryParams += ")";
       }
 
-      queryParams += " ORDER BY status ASC";
+      queryParams += " ORDER BY status ASC, sort_order DESC";
 
       String query = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND due_date >= ? AND due_date <= ?" + queryParams;
 
@@ -189,10 +192,11 @@ public class TaskServiceImpl implements TaskService {
           TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
           TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
           Date dueDate = result.getDate("due_date");
+          short sortOrder = result.getShort("sort_order");
 
           String date = DateHelper.sqlDateToString(dueDate);
 
-          Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
+          Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date, sortOrder);
 
           CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
           Category category = categoryService.getCategory(task.getCategoryId());
@@ -233,10 +237,11 @@ public class TaskServiceImpl implements TaskService {
           TaskType type = TaskType.valueOf(result.getString("type").toUpperCase());
           TaskStatus status = TaskStatus.valueOf(result.getString("status").toUpperCase());
           Date dueDate = result.getDate("due_date");
+          short sortOrder = result.getShort("sort_order");
 
           String date = DateHelper.sqlDateToString(dueDate);
 
-          Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date);
+          Task task = new Task(taskId, name, description, userId, categoryId, priority, type, status, date, sortOrder);
 
           CategoryServiceImpl categoryService = new CategoryServiceImpl(connection);
           Category category = categoryService.getCategory(task.getCategoryId());

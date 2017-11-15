@@ -18,9 +18,10 @@ public class Task {
   private TaskType type;
   private TaskStatus status;
   private String dueDate;
+  private short sortOrder;
   private Category category = null;
 
-  public Task(int id, String name, String description, int userId, int categoryId, int parentId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+  public Task(int id, String name, String description, int userId, int categoryId, int parentId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate, short sortOrder)
   {
     this.id = id;
     this.name = name;
@@ -32,11 +33,12 @@ public class Task {
     this.type = type;
     this.status = status;
     this.dueDate = dueDate;
+    this.sortOrder = sortOrder;
   }
-  
-  public Task(int id, String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+
+  public Task(int id, String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate, short sortOrder)
   {
-    this(id, name, description, userId, categoryId, 0, priority, type, status, dueDate);
+    this(id, name, description, userId, categoryId, 0, priority, type, status, dueDate, sortOrder);
   }
 
   public Task(int id)
@@ -44,9 +46,9 @@ public class Task {
     this.id = id;
   }
 
-  public Task(String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate)
+  public Task(String name, String description, int userId, int categoryId, TaskPriority priority, TaskType type, TaskStatus status, String dueDate, short sortOrder)
   {
-    this(0, name, description, userId, categoryId, priority, type, status, dueDate);
+    this(0, name, description, userId, categoryId, priority, type, status, dueDate, sortOrder);
   }
 
   public int getId()
@@ -109,6 +111,10 @@ public class Task {
     return parentId;
   }
 
+  public short getSortOrder() {
+    return sortOrder;
+  }
+
   public void setCategory(Category category)
   {
     this.category = category;
@@ -157,6 +163,10 @@ public class Task {
   public void setParentId(int parentId)
   {
     this.parentId = parentId;
+  }
+
+  public void setSortOrder(short sortOrder) {
+    this.sortOrder = sortOrder;
   }
 
 }

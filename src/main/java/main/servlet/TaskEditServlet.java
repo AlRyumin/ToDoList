@@ -97,13 +97,14 @@ public class TaskEditServlet extends HttpServlet {
       String status = request.getParameter("status");
       String dueDate = request.getParameter("due_date");
       String previous_url = request.getParameter("previous_url");
+      short sortOrder = Short.parseShort(request.getParameter("id"));
 
       int categoryId = Integer.parseInt(category);
       TaskPriority taskPriority = TaskPriority.valueOf(priority);
       TaskType taskType = TaskType.valueOf(type);
       TaskStatus taskStatus = TaskStatus.valueOf(status);
 
-      Task task = new Task(id, name, description, user.getId(), categoryId, taskPriority, taskType, taskStatus, dueDate);
+      Task task = new Task(id, name, description, user.getId(), categoryId, taskPriority, taskType, taskStatus, dueDate, sortOrder);
 
       taskService.update(task);
 

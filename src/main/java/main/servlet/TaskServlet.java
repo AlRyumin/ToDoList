@@ -185,7 +185,7 @@ public class TaskServlet extends HttpServlet {
       TaskPriority taskPriority = TaskPriority.valueOf(priority);
       TaskType taskType = TaskType.valueOf(type);
 
-      Task task = new Task(name, description, user.getId(), categoryId, taskPriority, taskType, TaskStatus.UNDONE, dueDate);
+      Task task = new Task(name, description, user.getId(), categoryId, taskPriority, taskType, TaskStatus.UNDONE, dueDate, (short) 0);
 
       taskService.create(task);
 

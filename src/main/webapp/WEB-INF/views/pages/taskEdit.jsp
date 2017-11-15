@@ -82,10 +82,18 @@
         </c:if>
 
         <div class="form-group row">
-          <label for="due_date" class="col-2 col-form-label">Due date</label>
-          <div class="col-3">
-            <div class="input-group">
-              <input type="text" id="datepicker" name="due_date" class="form-control" value='${task.dueDate}'>
+          <label for="sort_order" class="col-2 col-form-label">Sort order</label>
+          <div class="col-10">
+            <input type="number" name="sort_order" class="form-control" id="sort_order" placeholder="sort order"
+                   value='<c:if test="${task.sortOrder != null}">${task.sortOrder}</c:if>'>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="due_date" class="col-2 col-form-label">Due date</label>
+            <div class="col-3">
+              <div class="input-group">
+                <input type="text" id="datepicker" name="due_date" class="form-control" value='${task.dueDate}'>
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
           </div>
@@ -94,6 +102,8 @@
         <input type="hidden" name="previous_url" value="${pageContext.request.getHeader("referer")}"/>
         <input type="hidden" name="id" value="${pageContext.request.getParameter("id")}"/>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a class="btn btn-dark float-right" href="${pageContext.request.contextPath}${Constants.URL_TASK_DELETE}?id=${task.id}"
+           onclick="return confirm('Are you sure you want to delete task &quot;${task.name}&quot;?')">Delete</a>
       </form>
     </div>
   </body>
