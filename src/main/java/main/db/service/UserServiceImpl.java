@@ -18,6 +18,7 @@ import main.db.model.User;
 public class UserServiceImpl implements UserService {
 
   private Connection connection;
+  private static final String TABLE_NAME = "users";
 
   public UserServiceImpl(Connection connection) {
     this.connection = connection;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getUser(int id) throws SQLException {
     User user = null;
-    String query = "SELECT * FROM user WHERE id = ?";
+    String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
 
     PreparedStatement prepState = connection.prepareStatement(query);
 
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
   public User getUser(String userEmail, String userPassword) throws SQLException {
     User user = null;
-    String query = "SELECT * FROM user WHERE email = ? AND password = ?";
+    String query = "SELECT * FROM " + TABLE_NAME + " WHERE email = ? AND password = ?";
 
     PreparedStatement prepState = connection.prepareStatement(query);
 
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void createUser(User user) throws SQLException {
-    String sql = "Insert into user(name, email, password) values (?,?,?)";
+    String sql = "Insert into " + TABLE_NAME + "(name, email, password) values (?,?,?)";
 
     PreparedStatement prepState = connection.prepareStatement(sql);
 

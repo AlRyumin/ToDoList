@@ -7,6 +7,7 @@ package main.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import static main.utils.Constants.*;
 
 /**
  *
@@ -17,12 +18,14 @@ public class ConnectionUtils {
   public static Connection getConnection()
           throws ClassNotFoundException, SQLException {
 
-    return MySQLConnUtils.getMySQLConnection();
+    if (USE_POSTGRES_DB)
+      return PostGresConnUtils.getPostGresConnection();
+    else
+      return MySQLConnUtils.getMySQLConnection();
     // return OracleConnUtils.getOracleConnection);
     // return OracleConnUtils.getOracleConnection();
     // return SQLServerConnUtils_JTDS.getSQLServerConnection_JTDS();
     // return SQLServerConnUtils_SQLJDBC.getSQLServerConnection_SQLJDBC();
-    // return PostGresConnUtils.getPostGresConnection();
   }
 
   public static void closeQuietly(Connection conn) {

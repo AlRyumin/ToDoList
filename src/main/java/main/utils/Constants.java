@@ -26,4 +26,5 @@ public class Constants {
   public static final String URL_TASK_DELETE = "/task/delete";
 
   public final static String DATE_FORMAT = "dd-MM-yyyy";
+  public final static boolean USE_POSTGRES_DB = true;
 }

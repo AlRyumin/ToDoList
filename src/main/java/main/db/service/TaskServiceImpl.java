@@ -20,6 +20,7 @@ import main.db.model.TaskType;
 import main.db.model.User;
 import main.helper.DateHelper;
 import static main.helper.FieldValidation.*;
+import static main.utils.Constants.USE_POSTGRES_DB;
 
 public class TaskServiceImpl implements TaskService {
 
@@ -33,7 +34,14 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public void create(Task task) {
     try {
-      String query = "INSERT INTO " + TABLE_NAME + " (user_id, name, description, category_id, priority, type, status, due_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      String values;
+      if (USE_POSTGRES_DB)
+        values = "VALUES (?, ?, ?, ?, ?::task_priority, ?::task_type, ?::task_status, ?)";
+      else
+        values = "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+      String query = "INSERT INTO " + TABLE_NAME + " (user_id, name, description, category_id, priority, type, status, due_date) "
+              + values;
 
       PreparedStatement prepState = connection.prepareStatement(query);
 
@@ -58,8 +66,13 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public void update(Task task) {
     try {
-      String query = "UPDATE " + TABLE_NAME + " SET user_id = ?, category_id = ?, priority = ?, type = ?, "
-              + "status = ?, due_date = ?, name = ?, description = ?, sort_order = ? WHERE id = ?";
+      String set;
+      if (USE_POSTGRES_DB)
+        set = "user_id = ?, category_id = ?, priority = ?::task_priority, type = ?::task_type, status = ?::task_status, due_date = ?, name = ?, description = ?, sort_order = ?";
+      else
+        set = "user_id = ?, category_id = ?, priority = ?, type = ?, status = ?, due_date = ?, name = ?, description = ?, sort_order = ?";
+
+      String query = "UPDATE " + TABLE_NAME + " SET " + set + " WHERE id = ?";
 
       PreparedStatement prepState = connection.prepareStatement(query);
 
