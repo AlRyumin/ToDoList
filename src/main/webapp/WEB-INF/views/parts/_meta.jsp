@@ -21,5 +21,16 @@
 <script src='<c:url value="/src/js/main.js" />'></script>
 
 <c:if test="${Constants.URL_TASK == cur_url}" >
-  <script src='<c:url value="/src/js/pages/show_tasks.js" />'></script>
+  <c:if test="${empty param.add}">
+    <script src='<c:url value="/src/js/pages/show_tasks.js" />'></script>
+  </c:if>
+  <c:if test="${not empty param.add}">
+    <script src='<c:url value="/src/js/tinymce/tinymce.min.js" />'></script>
+    <script src='<c:url value="/src/js/pages/add_task.js" />'></script>
+  </c:if>
+</c:if>
+
+<c:if test="${Constants.URL_TASK_EDIT == cur_url}">
+  <script src='<c:url value="/src/js/tinymce/tinymce.min.js" />'></script>
+  <script src='<c:url value="/src/js/pages/edit_task.js" />'></script>
 </c:if>
